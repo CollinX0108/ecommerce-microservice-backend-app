@@ -20,7 +20,8 @@ pipeline {
                     echo "Detected branch: ${env.BRANCH_NAME}"
                     def profileConfig = [
                         master : ['prod', '-prod'],
-                        stage: ['stage', '-stage']
+                        stage: ['stage', '-stage'],
+                        develop: ['dev', '-dev']
                     ]
                     def config = profileConfig.get(env.BRANCH_NAME, ['dev', '-dev'])
 
@@ -30,13 +31,13 @@ pipeline {
 
                     env.IS_MASTER = env.BRANCH_NAME == 'master' ? 'true' : 'false'
                     env.IS_STAGE = env.BRANCH_NAME == 'stage' ? 'true' : 'false'
-                    env.IS_DEV = env.BRANCH_NAME == 'dev' ? 'true' : 'false'
+                    env.IS_DEVELOP = env.BRANCH_NAME == 'develop' ? 'true' : 'false'
                     env.IS_FEATURE = env.BRANCH_NAME.startsWith('feature/') ? 'true' : 'false'
 
                     echo "Spring profile: ${env.SPRING_PROFILES_ACTIVE}"
                     echo "Image tag: ${env.IMAGE_TAG}"
                     echo "Deployment suffix: ${env.DEPLOYMENT_SUFFIX}"
-                    echo "Flags: IS_MASTER=${env.IS_MASTER}, IS_STAGE=${env.IS_STAGE}, IS_DEV=${env.IS_DEV}, IS_FEATURE=${env.IS_FEATURE}"
+                    echo "Flags: IS_MASTER=${env.IS_MASTER}, IS_STAGE=${env.IS_STAGE}, IS_DEVELOP=${env.IS_DEVELOP}, IS_FEATURE=${env.IS_FEATURE}"
                 }
             }
         }
@@ -59,7 +60,7 @@ pipeline {
         stage('Build Services') {
             when {
                 anyOf {
-                    branch 'dev'
+                    branch 'develop'
                     branch 'stage'
                     branch 'master'
                 }
@@ -72,7 +73,7 @@ pipeline {
         stage('Build Docker Images') {
             when {
                 anyOf {
-                    branch 'dev'
+                    branch 'develop'
                     branch 'stage'
                     branch 'master'
                 }
@@ -89,7 +90,7 @@ pipeline {
         stage('Push Docker Images') {
             when {
                 anyOf {
-                    branch 'dev'
+                    branch 'develop'
                     branch 'stage'
                     branch 'master'
                 }
@@ -107,7 +108,7 @@ pipeline {
         }
 
         stage('Unit Tests') {
-            when { branch 'dev' }
+            when { branch 'develop' }
             steps {
                 script {
                     ['user-service', 'product-service'].each {
@@ -188,7 +189,7 @@ pipeline {
                     echo '🚀 Production deployment completed successfully!'
                 } else if (env.BRANCH_NAME == 'stage') {
                     echo '🎯 Staging deployment completed successfully!'
-                } else {
+                } else if (env.BRANCH_NAME == 'develop') {
                     echo '🔧 Development tests completed successfully!'
                 }
             }
