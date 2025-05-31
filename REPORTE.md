@@ -2,6 +2,10 @@
 
 # Collin Gonzalez - A00382429
 
+# LINK REPOSITORIO: https://github.com/CollinX0108/ecommerce-microservice-backend-app
+
+# Es
+
 ## 1. Configuración de Pipelines
 
 ### 1.1 Pipeline de Desarrollo (develop)
@@ -202,7 +206,7 @@ Resultados principales:
 
 ### 2.3 Pipeline de Producción
 
-![Alt text](https://img001.prntscr.com/file/img001/EzNkdwWoQFiSCeq39xnG3g.png)
+![Prod](https://img001.prntscr.com/file/img001/EzNkdwWoQFiSCeq39xnG3g.png)
 
 Resultados principales:
 - Todas las pruebas pasadas
@@ -214,6 +218,43 @@ Resultados principales:
 ### 3.1 E2E
 
 ![Alt text](https://img001.prntscr.com/file/img001/twtfkZPaQYu2RQb6m6maYw.png)
+
+### Resultados de Pruebas E2E
+Las pruebas E2E se completaron exitosamente con los siguientes resultados:
+
+1. **Order Service**:
+   - Tiempo de ejecución: 51.464 segundos
+   - Pruebas ejecutadas: 1
+   - Fallos: 0
+   - Errores: 0
+   - Respuesta exitosa (200 OK) con datos de orden válidos
+
+2. **Payment Service**:
+   - Tiempo de ejecución: 0.065 segundos
+   - Pruebas ejecutadas: 1
+   - Fallos: 0
+   - Errores: 0
+   - Respuesta exitosa (200 OK) con estado de pago COMPLETED
+
+3. **User Service**:
+   - Tiempo de ejecución: 0.123 segundos
+   - Pruebas ejecutadas: 1
+   - Fallos: 0
+   - Errores: 0
+   - Respuesta exitosa (200 OK) con datos de usuario válidos
+
+4. **Product Service**:
+   - Tiempo de ejecución: 0.159 segundos
+   - Pruebas ejecutadas: 1
+   - Fallos: 0
+   - Errores: 0
+   - Respuesta exitosa (200 OK) con lista de categorías
+
+**Resumen Total**:
+- Total de pruebas ejecutadas: 4
+- Total de fallos: 0
+- Total de errores: 0
+- Tiempo total de construcción: 54.522 segundos
 
 ### 3.2 Métricas de Rendimiento
 
@@ -257,3 +298,27 @@ Métricas clave:
 #### Documentación
 - Actualización de métricas de rendimiento
 - Mejora en la documentación de pruebas 
+
+## Observaciones y Problemas Encontrados
+
+### Problemas de Rendimiento
+- Los pipelines de construcción y despliegue en el entorno de stage se han demorado hasta 1 hora en completarse, principalmente debido a:
+  - Tiempo excesivo en la construcción de imágenes Docker
+
+![Alt text](https://img001.prntscr.com/file/img001/OP1SlzclRUSMoqvX5C64-g.png)
+
+### Fallos Recurrentes
+1. **Pruebas E2E**:
+   - Fallos intermitentes en las pruebas del servicio de favoritos debido a problemas de comunicación entre servicios
+   - Errores 500 en las llamadas al servicio de favoritos cuando intenta obtener información de usuarios y productos
+   - Se ha optado por deshabilitar temporalmente las pruebas E2E del servicio de favoritos
+
+2. **Despliegue**:
+   - Problemas de conectividad entre servicios en el entorno de stage
+   - Errores de resolución de nombres en las llamadas entre microservicios
+   - Timeouts en las llamadas a servicios externos
+
+3. **Jenkins**:
+   - Fallos ocasionales en la generación de Release Notes
+   - Problemas de permisos al intentar actualizar el estado de los commits en GitHub
+   - Errores de autenticación con el registro de Docker
