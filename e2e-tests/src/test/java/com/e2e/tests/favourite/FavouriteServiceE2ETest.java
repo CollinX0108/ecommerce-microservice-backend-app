@@ -7,40 +7,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = E2ESuite.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class FavouriteServiceE2ETest extends E2ESuite {
+
     @Autowired
     private TestRestFacade restFacade;
 
     @Value("${favourite.service.url}")
     private String favouriteServiceUrl;
 
-
     // @Test
     // void shouldGetAllFavourites() {
-    //    ResponseEntity<String> response = restFacade.get(
-    //            favouriteServiceUrl + "/favourite-service/api/favourites",
-    //            String.class);
-    //    System.out.println("Response: " + response.getBody());
-    //    System.out.println("Status Code: " + response.getStatusCode());
-    //    assertTrue(response.getStatusCode().is2xxSuccessful(), "Unexpected status code: " + response.getStatusCode());
-    }
+    //     ResponseEntity<String> response = restFacade.get(favouriteServiceUrl + "/favourite-service/api/favourites",
+    //             String.class);
+    //     System.out.println("Response: " + response.getBody());
+    //     System.out.println("Status Code: " + response.getStatusCode());
+    //     assertTrue(response.getStatusCode().is2xxSuccessful(), "Unexpected status code: " + response.getStatusCode());
+    // }
 
-//    @Test
-//    void shoulgGetFavouriteById() {
-//        String userId = "1";
-//        String productId = "2";
-//        LocalDateTime likeDateTime = LocalDateTime.of(2025, 5, 25, 7, 31, 51, 559551000);
-//        String likeDate = likeDateTime.format(DateTimeFormatter.ofPattern(EXPECTED_BACKEND_DATE_TIME_FORMAT));
-//        ResponseEntity<String> response = restFacade.get(
-//                favouriteServiceUrl + "/favourite-service/api/favourites/" + userId + "/" + productId + "/" + likeDate,
-//                String.class);
-//        System.out.println("Response: " + response.getBody());
-//        System.out.println("Status Code: " + response.getStatusCode());
-//        assertTrue(response.getStatusCode().is2xxSuccessful(), "Unexpected status code: " + response.getStatusCode());
-//    }
-
+    // @Test
+    // void shoulgGetFavouriteById() {
+    //     String userId = "1";
+    //     String productId = "2";
+    //     LocalDateTime likeDateTime = LocalDateTime.of(2025, 5, 25, 7, 31, 51, 559551000);
+    //     String likeDate = likeDateTime.format(DateTimeFormatter.ofPattern(EXPECTED_BACKEND_DATE_TIME_FORMAT));
+    //     ResponseEntity<String> response = restFacade.get(
+    //             favouriteServiceUrl + "/favourite-service/api/favourites/" + userId + "/" + productId + "/" + likeDate,
+    //             String.class);
+    //     System.out.println("Response: " + response.getBody());
+    //     System.out.println("Status Code: " + response.getStatusCode());
+    //     assertTrue(response.getStatusCode().is2xxSuccessful(), "Unexpected status code: " + response.getStatusCode());
+    // }
 } 

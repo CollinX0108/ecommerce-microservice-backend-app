@@ -1,5 +1,7 @@
 # Reporte de Implementación de Pipelines CI/CD
 
+# Collin Gonzalez - A00382429
+
 ## 1. Configuración de Pipelines
 
 ### 1.1 Pipeline de Desarrollo (develop)
@@ -199,7 +201,6 @@ Resultados principales:
 - Despliegue en ambiente de staging exitoso
 
 ### 2.3 Pipeline de Producción
-[INSERTAR IMAGEN: Resultado exitoso del pipeline master]
 
 ![Alt text](https://img001.prntscr.com/file/img001/EzNkdwWoQFiSCeq39xnG3g.png)
 
