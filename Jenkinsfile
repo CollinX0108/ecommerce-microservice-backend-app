@@ -100,7 +100,7 @@ pipeline {
                     sh "docker login -u ${DOCKERHUB_USER} -p ${docker_hub_pwd}"
                     script {
                         SERVICES.split().each { service ->
-                            sh "docker push --quiet=false ${DOCKERHUB_USER}/${service}:${IMAGE_TAG} 2>&1 | tee /dev/tty"
+                            sh "docker push ${DOCKERHUB_USER}/${service}:${IMAGE_TAG}"
                         }
                     }
                 }
