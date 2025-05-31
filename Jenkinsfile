@@ -150,10 +150,12 @@ pipeline {
                     -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 \\
                     ${DOCKERHUB_USER}/service-discovery:${IMAGE_TAG}
 
+                    echo "Waiting for service discovery to be ready..."
                     until curl -s http://localhost:8761/actuator/health | grep '"status":"UP"' > /dev/null; do
-                        echo "Waiting for service discovery to be ready..."
-                        sleep 10
+                        echo "Service discovery not ready yet..."
+                        sleep 30
                     done
+                    echo "Service discovery is ready!"
 
                     docker run -d --name cloud-config-container --network ecommerce-test -p 9296:9296 \\
                     -e SPRING_PROFILES_ACTIVE=stage \\
@@ -162,9 +164,18 @@ pipeline {
                     -e EUREKA_INSTANCE=cloud-config-container \\
                     ${DOCKERHUB_USER}/cloud-config:${IMAGE_TAG}
 
+                    echo "Waiting for cloud config to be ready..."
                     until curl -s http://localhost:9296/actuator/health | grep '"status":"UP"' > /dev/null; do
-                        echo "Waiting for cloud config to be ready..."
-                        sleep 10
+                        echo "Cloud config not ready yet..."
+                        sleep 30
+                    done
+                    echo "Cloud config is ready!"
+
+                    # Verificar que service-discovery sigue funcionando
+                    until curl -s http://localhost:8761/actuator/health | grep '"status":"UP"' > /dev/null; do
+                        echo "Service discovery not responding, restarting..."
+                        docker restart service-discovery-container
+                        sleep 30
                     done
 
                     docker run -d --name order-service-container --network ecommerce-test -p 8300:8300 \\
@@ -175,10 +186,12 @@ pipeline {
                     -e EUREKA_INSTANCE=order-service-container \\
                     ${DOCKERHUB_USER}/order-service:${IMAGE_TAG}
 
+                    echo "Waiting for order service to be ready..."
                     until [ "$(curl -s http://localhost:8300/order-service/actuator/health | jq -r '.status')" = "UP" ]; do
-                        echo "Waiting for order service to be ready..."
-                        sleep 10
+                        echo "Order service not ready yet..."
+                        sleep 30
                     done
+                    echo "Order service is ready!"
 
                     docker run -d --name payment-service-container --network ecommerce-test -p 8400:8400 \\
                     -e SPRING_PROFILES_ACTIVE=stage \\
@@ -190,6 +203,45 @@ pipeline {
 
                     until [ "$(curl -s http://localhost:8400/payment-service/actuator/health | jq -r '.status')" = "UP" ]; do
                         echo "Waiting for payment service to be ready..."
+                        sleep 10
+                    done
+
+                    docker run -d --name product-service-container --network ecommerce-test -p 8500:8500 \\
+                    -e SPRING_PROFILES_ACTIVE=stage \\
+                    -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 \\
+                    -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 \\
+                    -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka \\
+                    -e EUREKA_INSTANCE=product-service-container \\
+                    ${DOCKERHUB_USER}/product-service:${IMAGE_TAG}
+
+                    until [ "$(curl -s http://localhost:8500/product-service/actuator/health | jq -r '.status')" = "UP" ]; do
+                        echo "Waiting for product service to be ready..."
+                        sleep 10
+                    done
+
+                    docker run -d --name shipping-service-container --network ecommerce-test -p 8600:8600 \\
+                    -e SPRING_PROFILES_ACTIVE=stage \\
+                    -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 \\
+                    -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 \\
+                    -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka \\
+                    -e EUREKA_INSTANCE=shipping-service-container \\
+                    ${DOCKERHUB_USER}/shipping-service:${IMAGE_TAG}
+
+                    until [ "$(curl -s http://localhost:8600/shipping-service/actuator/health | jq -r '.status')" = "UP" ]; do
+                        echo "Waiting for shipping service to be ready..."
+                        sleep 10
+                    done
+
+                    docker run -d --name user-service-container --network ecommerce-test -p 8700:8700 \\
+                    -e SPRING_PROFILES_ACTIVE=stage \\
+                    -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 \\
+                    -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 \\
+                    -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka \\
+                    -e EUREKA_INSTANCE=user-service-container \\
+                    ${DOCKERHUB_USER}/user-service:${IMAGE_TAG}
+
+                    until [ "$(curl -s http://localhost:8700/user-service/actuator/health | jq -r '.status')" = "UP" ]; do
+                        echo "Waiting for user service to be ready..."
                         sleep 10
                     done
 
