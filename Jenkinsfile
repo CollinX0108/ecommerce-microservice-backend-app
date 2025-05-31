@@ -129,6 +129,13 @@ pipeline {
             }
         }
 
+        stage('E2E Tests') {
+            when { branch 'stage' }
+            steps {
+                sh 'mvn clean test -pl e2e-tests'
+            }
+        }
+
         stage('Ensure Namespace') {
             when { branch 'master' }
             steps {
