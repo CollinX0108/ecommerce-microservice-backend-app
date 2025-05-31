@@ -433,6 +433,71 @@ pipeline {
                 }
             }
         }
+
+        stage('Generate Release Notes') {
+            when { branch 'master' }
+            steps {
+                script {
+                    def releaseNotes = []
+                    def lastTag = sh(script: 'git describe --tags --abbrev=0 || echo "v0.0.0"', returnStdout: true).trim()
+                    
+                    // Obtener commits desde el último tag
+                    def commits = sh(script: "git log ${lastTag}..HEAD --pretty=format:'%h|%s|%an'", returnStdout: true).trim().split('\n')
+                    
+                    // Categorizar commits
+                    def features = []
+                    def fixes = []
+                    def docs = []
+                    def others = []
+                    
+                    commits.each { commit ->
+                        def (hash, message, author) = commit.split('\\|')
+                        if (message.toLowerCase().contains('feat:')) {
+                            features << "- ${message} (${hash})"
+                        } else if (message.toLowerCase().contains('fix:')) {
+                            fixes << "- ${message} (${hash})"
+                        } else if (message.toLowerCase().contains('docs:')) {
+                            docs << "- ${message} (${hash})"
+                        } else {
+                            others << "- ${message} (${hash})"
+                        }
+                    }
+                    
+                    // Generar Release Notes
+                    def version = sh(script: 'git describe --tags --abbrev=0 || echo "v0.0.0"', returnStdout: true).trim()
+                    def newVersion = version.replace('v', '').split('\\.')
+                    newVersion[2] = (newVersion[2].toInteger() + 1).toString()
+                    newVersion = "v${newVersion.join('.')}"
+                    
+                    def releaseNotesContent = """
+# Release Notes - ${newVersion}
+
+## Cambios desde ${version}
+
+${features.size() > 0 ? '### Nuevas Características\n' + features.join('\n') + '\n' : ''}
+${fixes.size() > 0 ? '### Correcciones\n' + fixes.join('\n') + '\n' : ''}
+${docs.size() > 0 ? '### Documentación\n' + docs.join('\n') + '\n' : ''}
+${others.size() > 0 ? '### Otros Cambios\n' + others.join('\n') + '\n' : ''}
+
+## Detalles Técnicos
+- Branch: ${env.BRANCH_NAME}
+- Commit: ${env.GIT_COMMIT}
+- Build: ${env.BUILD_NUMBER}
+- Fecha: ${new Date().format("yyyy-MM-dd HH:mm:ss")}
+"""
+                    
+                    // Guardar Release Notes
+                    writeFile file: 'RELEASE_NOTES.md', text: releaseNotesContent
+                    
+                    // Crear nuevo tag
+                    sh "git tag -a ${newVersion} -m 'Release ${newVersion}'"
+                    sh "git push origin ${newVersion}"
+                    
+                    // Publicar Release Notes como artefacto
+                    archiveArtifacts artifacts: 'RELEASE_NOTES.md', fingerprint: true
+                }
+            }
+        }
     }
 
     post {

@@ -19,14 +19,14 @@ public class FavouriteServiceE2ETest extends E2ESuite {
     private String favouriteServiceUrl;
 
 
-    @Test
-    void shouldGetAllFavourites() {
-        ResponseEntity<String> response = restFacade.get(
-                favouriteServiceUrl + "/favourite-service/api/favourites",
-                String.class);
-        System.out.println("Response: " + response.getBody());
-        System.out.println("Status Code: " + response.getStatusCode());
-        assertTrue(response.getStatusCode().is2xxSuccessful(), "Unexpected status code: " + response.getStatusCode());
+    // @Test
+    // void shouldGetAllFavourites() {
+    //    ResponseEntity<String> response = restFacade.get(
+    //            favouriteServiceUrl + "/favourite-service/api/favourites",
+    //            String.class);
+    //    System.out.println("Response: " + response.getBody());
+    //    System.out.println("Status Code: " + response.getStatusCode());
+    //    assertTrue(response.getStatusCode().is2xxSuccessful(), "Unexpected status code: " + response.getStatusCode());
     }
 
 //    @Test

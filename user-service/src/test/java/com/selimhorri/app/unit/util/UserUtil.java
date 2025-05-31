@@ -14,7 +14,7 @@ public class UserUtil {
     public static UserDto getSampleUserDto() {
         CredentialDto credentialDto = CredentialDto.builder()
                 .credentialId(1)
-                .username("johndoe")
+                .username("collin0108")
                 .password("password123")
                 .roleBasedAuthority(RoleBasedAuthority.ROLE_USER)
                 .isEnabled(true)
@@ -24,11 +24,11 @@ public class UserUtil {
                 .build();
         return UserDto.builder()
                 .userId(1)
-                .firstName("John")
-                .lastName("Doe")
-                .imageUrl("http://example.com/john.jpg")
-                .email("john.doe@example.com")
-                .phone("+1234567890")
+                .firstName("Collin")
+                .lastName("Gonzalez")
+                .imageUrl("https://bootdey.com/img/Content/avatar/avatar1.png")
+                .email("collin.gonzalez@gmail.com")
+                .phone("+573218770876")
                 .credentialDto(credentialDto)
                 .build();
     }
@@ -36,7 +36,7 @@ public class UserUtil {
     public static User getSampleUser() {
         Credential credential = Credential.builder()
                 .credentialId(1)
-                .username("johndoe")
+                .username("collin0108")
                 .password("password123")
                 .roleBasedAuthority(RoleBasedAuthority.ROLE_USER)
                 .isEnabled(true)
@@ -46,11 +46,11 @@ public class UserUtil {
                 .build();
         User user = User.builder()
                 .userId(1)
-                .firstName("John")
-                .lastName("Doe")
-                .imageUrl("http://example.com/john.jpg")
-                .email("john.doe@example.com")
-                .phone("+1234567890")
+                .firstName("Collin")
+                .lastName("Gonzalez")
+                .imageUrl("https://bootdey.com/img/Content/avatar/avatar1.png")
+                .email("collin.gonzalez@gmail.com")
+                .phone("+573218770876")
                 .credential(credential)
                 .build();
         credential.setUser(user);
@@ -60,7 +60,7 @@ public class UserUtil {
     public static User getSampleUser2() {
         Credential credential = Credential.builder()
                 .credentialId(2)
-                .username("janesmith")
+                .username("maria123")
                 .password("password456")
                 .roleBasedAuthority(RoleBasedAuthority.ROLE_USER)
                 .isEnabled(true)
@@ -70,11 +70,11 @@ public class UserUtil {
                 .build();
         User user = User.builder()
                 .userId(2)
-                .firstName("Jane")
-                .lastName("Smith")
-                .imageUrl("http://example.com/jane.jpg")
-                .email("jane.smith@example.com")
-                .phone("+0987654321")
+                .firstName("Maria")
+                .lastName("Rodriguez")
+                .imageUrl("https://bootdey.com/img/Content/avatar/avatar2.png")
+                .email("maria.rodriguez@gmail.com")
+                .phone("+573218770877")
                 .credential(credential)
                 .build();
         credential.setUser(user);
