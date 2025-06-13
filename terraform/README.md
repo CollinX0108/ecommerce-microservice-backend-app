@@ -35,19 +35,19 @@ El estado de Terraform se almacena en Azure Storage Account con la siguiente con
 ## Despliegue
 
 1. Inicializar Terraform:
-   ```bash
-   terraform init
-   ```
+```bash
+terraform init
+```
 
 2. Planificar los cambios:
-   ```bash
+```bash
    terraform plan
    ```
 
 3. Aplicar los cambios:
-   ```bash
+```bash
    terraform apply
-   ```
+```
 
 ## Ambientes
 
