@@ -10,7 +10,7 @@ pipeline {
         DOCKERHUB_USER = 'collinx0108'
         DOCKER_CREDENTIALS_ID = 'docker_hub_pwd'
         SERVICES = 'api-gateway cloud-config favourite-service order-service payment-service product-service proxy-client service-discovery shipping-service user-service locust'
-        K8S_NAMESPACE = 'ecommerce'
+        K8S_NAMESPACE = 'default'
     }
 
     stages {
@@ -386,22 +386,13 @@ pipeline {
             }
         }
 
-        stage('Ensure Namespace') {
-            when { branch 'master' }
-            steps {
-                sh "kubectl get namespace ${K8S_NAMESPACE} || kubectl create namespace ${K8S_NAMESPACE}"
-            }
-        }
-
         stage('Deploy Common Config') {
-            when { branch 'master' }
             steps {
                 sh "kubectl apply -f k8s/common-config.yaml -n ${K8S_NAMESPACE}"
             }
         }
 
         stage('Deploy Core Services') {
-            when { branch 'master' }
             steps {
                 sh "kubectl apply -f k8s/service-discovery/ -n ${K8S_NAMESPACE}"
                 sh "kubectl set image deployment/service-discovery service-discovery=${DOCKERHUB_USER}/service-discovery:${IMAGE_TAG} -n ${K8S_NAMESPACE}"
