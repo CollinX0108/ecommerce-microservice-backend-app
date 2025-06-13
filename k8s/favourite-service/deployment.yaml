@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-service
+  name: favourite-service
   namespace: default
   labels:
-    app: payment-service
+    app: favourite-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: payment-service
+      app: favourite-service
   template:
     metadata:
       labels:
-        app: payment-service
+        app: favourite-service
     spec:
       containers:
-        - name: payment-service
-          image: collinx0108/payment-service:prod
+        - name: favourite-service
+          image: collinx0108/favourite-service:prod
           ports:
-            - containerPort: 8400
+            - containerPort: 8800
           resources:
             requests:
               memory: "128Mi"
@@ -37,22 +37,22 @@ spec:
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: "http://service-discovery:8761/eureka/"
             - name: EUREKA_INSTANCE
-              value: "payment-service"
+              value: "favourite-service"
             - name: SPRING_APPLICATION_NAME
-              value: "PAYMENT-SERVICE"
+              value: "FAVOURITE-SERVICE"
             - name: SERVER_PORT
-              value: "8400"
+              value: "8800"
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8400
+              port: 8800
             initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8400
+              port: 8800
             initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 3

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shipping-service
-  namespace: ecommerce
+  namespace: default
   labels:
     app: shipping-service
 spec:

@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-service
+  name: proxy-client
   namespace: default
   labels:
-    app: payment-service
+    app: proxy-client
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: payment-service
+      app: proxy-client
   template:
     metadata:
       labels:
-        app: payment-service
+        app: proxy-client
     spec:
       containers:
-        - name: payment-service
-          image: collinx0108/payment-service:prod
+        - name: proxy-client
+          image: collinx0108/proxy-client:prod
           ports:
-            - containerPort: 8400
+            - containerPort: 8900
           resources:
             requests:
               memory: "128Mi"
@@ -37,22 +37,22 @@ spec:
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: "http://service-discovery:8761/eureka/"
             - name: EUREKA_INSTANCE
-              value: "payment-service"
+              value: "proxy-client"
             - name: SPRING_APPLICATION_NAME
-              value: "PAYMENT-SERVICE"
+              value: "PROXY-CLIENT"
             - name: SERVER_PORT
-              value: "8400"
+              value: "8900"
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8400
+              port: 8900
             initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8400
+              port: 8900
             initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 3
