@@ -81,8 +81,16 @@ pipeline {
             steps {
                 script {
                     sh 'docker buildx create --name mybuilder --use || true'
+                    sh 'docker buildx inspect --bootstrap'
                     SERVICES.split().each { service ->
-                        sh "docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKERHUB_USER}/${service}:${IMAGE_TAG} --build-arg SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} --push ./${service}"
+                        sh """
+                            docker buildx build \\
+                                --platform linux/amd64 \\
+                                --tag ${DOCKERHUB_USER}/${service}:${IMAGE_TAG} \\
+                                --build-arg SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} \\
+                                --push \\
+                                ./${service}
+                        """
                     }
                 }
             }
