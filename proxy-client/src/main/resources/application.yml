@@ -17,7 +17,7 @@ spring:
 resilience4j:
   circuitbreaker:
     instances:
-      proxyService:
+      paymentService:
         register-health-indicator: true
         event-consumer-buffer-size: 10
         automatic-transition-from-open-to-half-open-enabled: true
@@ -27,14 +27,111 @@ resilience4j:
         sliding-window-size: 10
         wait-duration-in-open-state: 5s
         sliding-window-type: COUNT_BASED
+      orderService:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        automatic-transition-from-open-to-half-open-enabled: true
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        wait-duration-in-open-state: 5s
+        sliding-window-type: COUNT_BASED
+      userService:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        automatic-transition-from-open-to-half-open-enabled: true
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        wait-duration-in-open-state: 5s
+        sliding-window-type: COUNT_BASED
+      productService:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        automatic-transition-from-open-to-half-open-enabled: true
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        wait-duration-in-open-state: 5s
+        sliding-window-type: COUNT_BASED
+  bulkhead:
+    instances:
+      paymentService:
+        max-concurrent-calls: 10
+        max-wait-duration: 1s
+      orderService:
+        max-concurrent-calls: 10
+        max-wait-duration: 1s
+      userService:
+        max-concurrent-calls: 15
+        max-wait-duration: 1s
+      productService:
+        max-concurrent-calls: 20
+        max-wait-duration: 1s
+  retry:
+    instances:
+      paymentService:
+        max-attempts: 3
+        wait-duration: 1s
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+          - org.springframework.web.client.ResourceAccessException
+      orderService:
+        max-attempts: 3
+        wait-duration: 1s
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+          - org.springframework.web.client.ResourceAccessException
+      userService:
+        max-attempts: 3
+        wait-duration: 1s
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+          - org.springframework.web.client.ResourceAccessException
+      productService:
+        max-attempts: 3
+        wait-duration: 1s
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+          - org.springframework.web.client.ResourceAccessException
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /actuator
   health:
     circuitbreakers:
+      enabled: true
+    livenessstate:
+      enabled: true
+    readinessstate:
       enabled: true
   endpoint:
     health:
       show-details: always
+      probes:
+        enabled: true
+
+# Feature Toggle Configuration
+features:
+  enhanced-payment-processing: true
+  product-recommendations: false
+  advanced-order-tracking: false
+  circuit-breaker-monitoring: true
+  experimental-user-dashboard: false
 
 
 
