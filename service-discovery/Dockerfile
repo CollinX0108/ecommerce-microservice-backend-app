@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM --platform=linux/amd64 openjdk:11-jre-slim
 #ARG PROJECT_VERSION=0.1.0
 RUN mkdir -p /home/app
 WORKDIR /home/app
