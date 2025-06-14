@@ -1,0 +1,116 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-rules
+  namespace: monitoring
+data:
+  ecommerce-rules.yml: |
+    groups:
+    - name: ecommerce.rules
+      rules:
+      
+      # Alertas de disponibilidad de servicios
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Servicio {{ $labels.instance }} está caído"
+          description: "El servicio {{ $labels.job }} en {{ $labels.instance }} ha estado caído por más de 1 minuto."
+
+      # Alertas de CPU
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alto uso de CPU en {{ $labels.instance }}"
+          description: "CPU usage is above 80% on {{ $labels.instance }} for more than 2 minutes."
+
+      # Alertas de memoria
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 85
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alto uso de memoria en {{ $labels.instance }}"
+          description: "Memory usage is above 85% on {{ $labels.instance }} for more than 2 minutes."
+
+      # Alertas específicas de microservicios
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) * 100 > 5
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Alta tasa de errores en {{ $labels.service }}"
+          description: "Error rate is above 5% for {{ $labels.service }} for more than 2 minutes."
+
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Tiempo de respuesta alto en {{ $labels.service }}"
+          description: "95th percentile response time is above 1 second for {{ $labels.service }}."
+
+      # Alertas de base de datos
+      - alert: DatabaseConnectionsHigh
+        expr: mysql_global_status_threads_connected / mysql_global_variables_max_connections * 100 > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alto número de conexiones a la base de datos"
+          description: "Database connections are above 80% of the configured maximum."
+
+      # Alertas de negocio específicas del e-commerce
+      - alert: OrderProcessingFailures
+        expr: increase(orders_failed_total[5m]) > 10
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Fallos en el procesamiento de órdenes"
+          description: "More than 10 orders have failed processing in the last 5 minutes."
+
+      - alert: PaymentGatewayDown
+        expr: payment_gateway_up == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Gateway de pagos no disponible"
+          description: "Payment gateway is down. Customers cannot complete purchases."
+
+      - alert: InventoryLow
+        expr: product_inventory_remaining < 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Inventario bajo para el producto {{ $labels.product_id }}"
+          description: "Product {{ $labels.product_name }} has less than 10 units remaining in inventory."
+
+      # Alertas de Kubernetes
+      - alert: PodCrashLooping
+        expr: rate(kube_pod_container_status_restarts_total[15m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Pod {{ $labels.pod }} está reiniciando continuamente"
+          description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is crash looping."
+
+      - alert: NodeNotReady
+        expr: kube_node_status_condition{condition="Ready",status="true"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Nodo Kubernetes no está listo"
+          description: "Node {{ $labels.node }} has been unready for more than 5 minutes." 

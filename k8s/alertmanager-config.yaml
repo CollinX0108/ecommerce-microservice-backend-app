@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |-
+    global:
+      smtp_smarthost: 'localhost:587'
+      smtp_from: 'alerts@ecommerce.local'
+      smtp_auth_username: 'alertmanager@ecommerce.local'
+      smtp_auth_password: 'password'
+
+    route:
+      group_by: ['alertname']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 1h
+      receiver: 'web.hook'
+      routes:
+      - match:
+          severity: critical
+        receiver: critical-alerts
+      - match:
+          severity: warning
+        receiver: warning-alerts
+
+    receivers:
+    - name: 'web.hook'
+      webhook_configs:
+      - url: 'http://127.0.0.1:5001/'
+        send_resolved: true
+
+    - name: 'critical-alerts'
+      email_configs:
+      - to: 'admin@ecommerce.local'
+        subject: 'CRÍTICO - {{ .GroupLabels.alertname }}'
+        body: |
+          Alerta crítica en el sistema de E-commerce:
+          
+          {{ range .Alerts }}
+          - **Alerta**: {{ .Annotations.summary }}
+          - **Descripción**: {{ .Annotations.description }}
+          - **Severidad**: {{ .Labels.severity }}
+          - **Servicio**: {{ .Labels.service }}
+          - **Tiempo**: {{ .StartsAt }}
+          {{ end }}
+
+    - name: 'warning-alerts'
+      email_configs:
+      - to: 'ops@ecommerce.local'
+        subject: 'ADVERTENCIA - {{ .GroupLabels.alertname }}'
+        body: |
+          Advertencia en el sistema de E-commerce:
+          
+          {{ range .Alerts }}
+          - **Alerta**: {{ .Annotations.summary }}
+          - **Descripción**: {{ .Annotations.description }}
+          - **Severidad**: {{ .Labels.severity }}
+          - **Servicio**: {{ .Labels.service }}
+          - **Tiempo**: {{ .StartsAt }}
+          {{ end }}
+
+    inhibit_rules:
+      - source_match:
+          severity: 'critical'
+        target_match:
+          severity: 'warning'
+        equal: ['alertname', 'dev', 'instance'] 
