@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11-jdk
+FROM eclipse-temurin:11-jre-alpine
 #ARG PROJECT_VERSION=0.1.0
 RUN mkdir -p /home/app
 WORKDIR /home/app
