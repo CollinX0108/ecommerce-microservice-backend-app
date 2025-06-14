@@ -1,0 +1,972 @@
+{
+  "security_scan_report": {
+    "timestamp": "2025-06-14T12:34:22.834531",
+    "summary": {
+      "services_scanned": 6,
+      "total_tests": 24,
+      "high_risk_findings": 1,
+      "medium_risk_findings": 0,
+      "low_risk_findings": 0
+    },
+    "services": {
+      "api-gateway": {
+        "service": "api-gateway",
+        "base_url": "http://localhost:8080",
+        "timestamp": "2025-06-14T12:34:20.693015",
+        "tests": {
+          "security_headers": {
+            "status": "completed",
+            "headers": {
+              "X-Content-Type-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-Frame-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-XSS-Protection": {
+                "present": false,
+                "secure": false
+              },
+              "Strict-Transport-Security": {
+                "present": false,
+                "secure": false
+              }
+            }
+          },
+          "http_methods": {
+            "status": "completed",
+            "methods": {
+              "GET": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "POST": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PUT": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "DELETE": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PATCH": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "HEAD": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "OPTIONS": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "TRACE": {
+                "allowed": false,
+                "status_code": 405
+              }
+            }
+          },
+          "information_disclosure": {
+            "status": "completed",
+            "endpoints": {
+              "/actuator/health": {
+                "accessible": true,
+                "status_code": 200,
+                "sensitive_data_found": [],
+                "risk_level": "LOW"
+              },
+              "/actuator/info": {
+                "accessible": true,
+                "status_code": 200,
+                "sensitive_data_found": [],
+                "risk_level": "LOW"
+              },
+              "/actuator/env": {
+                "accessible": true,
+                "status_code": 200,
+                "sensitive_data_found": [],
+                "risk_level": "LOW"
+              },
+              "/actuator/configprops": {
+                "accessible": true,
+                "status_code": 200,
+                "sensitive_data_found": [
+                  "password",
+                  "key",
+                  "token"
+                ],
+                "risk_level": "HIGH"
+              },
+              "/error": {
+                "accessible": false,
+                "status_code": 404
+              }
+            }
+          },
+          "authentication": {
+            "status": "completed",
+            "endpoints": {
+              "/api/users": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/products": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/orders": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "user-service": {
+        "service": "user-service",
+        "base_url": "http://localhost:8700",
+        "timestamp": "2025-06-14T12:34:21.202196",
+        "tests": {
+          "security_headers": {
+            "status": "completed",
+            "headers": {
+              "X-Content-Type-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-Frame-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-XSS-Protection": {
+                "present": false,
+                "secure": false
+              },
+              "Strict-Transport-Security": {
+                "present": false,
+                "secure": false
+              }
+            }
+          },
+          "http_methods": {
+            "status": "completed",
+            "methods": {
+              "GET": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "POST": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PUT": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "DELETE": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PATCH": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "HEAD": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "OPTIONS": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "TRACE": {
+                "allowed": false,
+                "status_code": 405
+              }
+            }
+          },
+          "information_disclosure": {
+            "status": "completed",
+            "endpoints": {
+              "/actuator/health": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/info": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/env": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/configprops": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/error": {
+                "accessible": false,
+                "status_code": 404
+              }
+            }
+          },
+          "authentication": {
+            "status": "completed",
+            "endpoints": {
+              "/api/users": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/products": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/orders": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "product-service": {
+        "service": "product-service",
+        "base_url": "http://localhost:8500",
+        "timestamp": "2025-06-14T12:34:21.425274",
+        "tests": {
+          "security_headers": {
+            "status": "completed",
+            "headers": {
+              "X-Content-Type-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-Frame-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-XSS-Protection": {
+                "present": false,
+                "secure": false
+              },
+              "Strict-Transport-Security": {
+                "present": false,
+                "secure": false
+              }
+            }
+          },
+          "http_methods": {
+            "status": "completed",
+            "methods": {
+              "GET": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "POST": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PUT": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "DELETE": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PATCH": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "HEAD": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "OPTIONS": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "TRACE": {
+                "allowed": false,
+                "status_code": 405
+              }
+            }
+          },
+          "information_disclosure": {
+            "status": "completed",
+            "endpoints": {
+              "/actuator/health": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/info": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/env": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/configprops": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/error": {
+                "accessible": false,
+                "status_code": 404
+              }
+            }
+          },
+          "authentication": {
+            "status": "completed",
+            "endpoints": {
+              "/api/users": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/products": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/orders": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "order-service": {
+        "service": "order-service",
+        "base_url": "http://localhost:8300",
+        "timestamp": "2025-06-14T12:34:21.698584",
+        "tests": {
+          "security_headers": {
+            "status": "completed",
+            "headers": {
+              "X-Content-Type-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-Frame-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-XSS-Protection": {
+                "present": false,
+                "secure": false
+              },
+              "Strict-Transport-Security": {
+                "present": false,
+                "secure": false
+              }
+            }
+          },
+          "http_methods": {
+            "status": "completed",
+            "methods": {
+              "GET": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "POST": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PUT": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "DELETE": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PATCH": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "HEAD": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "OPTIONS": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "TRACE": {
+                "allowed": false,
+                "status_code": 405
+              }
+            }
+          },
+          "information_disclosure": {
+            "status": "completed",
+            "endpoints": {
+              "/actuator/health": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/info": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/env": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/configprops": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/error": {
+                "accessible": false,
+                "status_code": 404
+              }
+            }
+          },
+          "authentication": {
+            "status": "completed",
+            "endpoints": {
+              "/api/users": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/products": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/orders": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "payment-service": {
+        "service": "payment-service",
+        "base_url": "http://localhost:8400",
+        "timestamp": "2025-06-14T12:34:22.055117",
+        "tests": {
+          "security_headers": {
+            "status": "completed",
+            "headers": {
+              "X-Content-Type-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-Frame-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-XSS-Protection": {
+                "present": false,
+                "secure": false
+              },
+              "Strict-Transport-Security": {
+                "present": false,
+                "secure": false
+              }
+            }
+          },
+          "http_methods": {
+            "status": "completed",
+            "methods": {
+              "GET": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "POST": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PUT": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "DELETE": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PATCH": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "HEAD": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "OPTIONS": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "TRACE": {
+                "allowed": false,
+                "status_code": 405
+              }
+            }
+          },
+          "information_disclosure": {
+            "status": "completed",
+            "endpoints": {
+              "/actuator/health": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/info": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/env": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/configprops": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/error": {
+                "accessible": false,
+                "status_code": 404
+              }
+            }
+          },
+          "authentication": {
+            "status": "completed",
+            "endpoints": {
+              "/api/users": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/products": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/orders": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "favourite-service": {
+        "service": "favourite-service",
+        "base_url": "http://localhost:8800",
+        "timestamp": "2025-06-14T12:34:22.350544",
+        "tests": {
+          "security_headers": {
+            "status": "completed",
+            "headers": {
+              "X-Content-Type-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-Frame-Options": {
+                "present": false,
+                "secure": false
+              },
+              "X-XSS-Protection": {
+                "present": false,
+                "secure": false
+              },
+              "Strict-Transport-Security": {
+                "present": false,
+                "secure": false
+              }
+            }
+          },
+          "http_methods": {
+            "status": "completed",
+            "methods": {
+              "GET": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "POST": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PUT": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "DELETE": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "PATCH": {
+                "allowed": false,
+                "status_code": 405
+              },
+              "HEAD": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "OPTIONS": {
+                "allowed": true,
+                "status_code": 200
+              },
+              "TRACE": {
+                "allowed": false,
+                "status_code": 405
+              }
+            }
+          },
+          "information_disclosure": {
+            "status": "completed",
+            "endpoints": {
+              "/actuator/health": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/info": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/env": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/actuator/configprops": {
+                "accessible": false,
+                "status_code": 404
+              },
+              "/error": {
+                "accessible": false,
+                "status_code": 404
+              }
+            }
+          },
+          "authentication": {
+            "status": "completed",
+            "endpoints": {
+              "/api/users": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/products": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              },
+              "/api/orders": {
+                "no_auth": {
+                  "status_code": 404,
+                  "protected": false
+                },
+                "invalid_token": {
+                  "status_code": 404,
+                  "protected": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "dependency_analysis": {
+      "timestamp": "2025-06-14T12:34:22.833346",
+      "pom_files_found": 12,
+      "files": [
+        "pom.xml",
+        "api-gateway\\pom.xml",
+        "cloud-config\\pom.xml",
+        "e2e-tests\\pom.xml",
+        "favourite-service\\pom.xml",
+        "order-service\\pom.xml",
+        "payment-service\\pom.xml",
+        "product-service\\pom.xml",
+        "proxy-client\\pom.xml",
+        "service-discovery\\pom.xml",
+        "shipping-service\\pom.xml",
+        "user-service\\pom.xml"
+      ],
+      "analysis": "Manual review required - check for known vulnerable dependencies"
+    },
+    "recommendations": [
+      {
+        "service": "api-gateway",
+        "category": "Security Headers",
+        "issue": "Missing X-Content-Type-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Content-Type-Options header to improve security"
+      },
+      {
+        "service": "api-gateway",
+        "category": "Security Headers",
+        "issue": "Missing X-Frame-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Frame-Options header to improve security"
+      },
+      {
+        "service": "api-gateway",
+        "category": "Security Headers",
+        "issue": "Missing X-XSS-Protection header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-XSS-Protection header to improve security"
+      },
+      {
+        "service": "api-gateway",
+        "category": "Security Headers",
+        "issue": "Missing Strict-Transport-Security header",
+        "severity": "MEDIUM",
+        "recommendation": "Add Strict-Transport-Security header to improve security"
+      },
+      {
+        "service": "api-gateway",
+        "category": "Information Disclosure",
+        "issue": "Sensitive information exposed at /actuator/configprops",
+        "severity": "HIGH",
+        "recommendation": "Restrict access to sensitive endpoints or remove sensitive data"
+      },
+      {
+        "service": "user-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Content-Type-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Content-Type-Options header to improve security"
+      },
+      {
+        "service": "user-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Frame-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Frame-Options header to improve security"
+      },
+      {
+        "service": "user-service",
+        "category": "Security Headers",
+        "issue": "Missing X-XSS-Protection header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-XSS-Protection header to improve security"
+      },
+      {
+        "service": "user-service",
+        "category": "Security Headers",
+        "issue": "Missing Strict-Transport-Security header",
+        "severity": "MEDIUM",
+        "recommendation": "Add Strict-Transport-Security header to improve security"
+      },
+      {
+        "service": "product-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Content-Type-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Content-Type-Options header to improve security"
+      },
+      {
+        "service": "product-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Frame-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Frame-Options header to improve security"
+      },
+      {
+        "service": "product-service",
+        "category": "Security Headers",
+        "issue": "Missing X-XSS-Protection header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-XSS-Protection header to improve security"
+      },
+      {
+        "service": "product-service",
+        "category": "Security Headers",
+        "issue": "Missing Strict-Transport-Security header",
+        "severity": "MEDIUM",
+        "recommendation": "Add Strict-Transport-Security header to improve security"
+      },
+      {
+        "service": "order-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Content-Type-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Content-Type-Options header to improve security"
+      },
+      {
+        "service": "order-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Frame-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Frame-Options header to improve security"
+      },
+      {
+        "service": "order-service",
+        "category": "Security Headers",
+        "issue": "Missing X-XSS-Protection header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-XSS-Protection header to improve security"
+      },
+      {
+        "service": "order-service",
+        "category": "Security Headers",
+        "issue": "Missing Strict-Transport-Security header",
+        "severity": "MEDIUM",
+        "recommendation": "Add Strict-Transport-Security header to improve security"
+      },
+      {
+        "service": "payment-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Content-Type-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Content-Type-Options header to improve security"
+      },
+      {
+        "service": "payment-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Frame-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Frame-Options header to improve security"
+      },
+      {
+        "service": "payment-service",
+        "category": "Security Headers",
+        "issue": "Missing X-XSS-Protection header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-XSS-Protection header to improve security"
+      },
+      {
+        "service": "payment-service",
+        "category": "Security Headers",
+        "issue": "Missing Strict-Transport-Security header",
+        "severity": "MEDIUM",
+        "recommendation": "Add Strict-Transport-Security header to improve security"
+      },
+      {
+        "service": "favourite-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Content-Type-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Content-Type-Options header to improve security"
+      },
+      {
+        "service": "favourite-service",
+        "category": "Security Headers",
+        "issue": "Missing X-Frame-Options header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-Frame-Options header to improve security"
+      },
+      {
+        "service": "favourite-service",
+        "category": "Security Headers",
+        "issue": "Missing X-XSS-Protection header",
+        "severity": "MEDIUM",
+        "recommendation": "Add X-XSS-Protection header to improve security"
+      },
+      {
+        "service": "favourite-service",
+        "category": "Security Headers",
+        "issue": "Missing Strict-Transport-Security header",
+        "severity": "MEDIUM",
+        "recommendation": "Add Strict-Transport-Security header to improve security"
+      }
+    ]
+  }
+}

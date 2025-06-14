@@ -147,6 +147,59 @@ locust -f test/ecommerce-complete/ecommerce_load_test.py \
 # Abrir http://localhost:8089 en el navegador
 ```
 
+### **4. Uso de la Interfaz Web de Locust**
+
+Para usar la interfaz web de Locust:
+
+1. **Iniciar Locust:**
+```bash
+cd locust
+python -m locust -f test/ecommerce-complete/ecommerce_load_test.py --host http://localhost:9081
+```
+
+2. **Acceder a la interfaz web:**
+- Abrir el navegador y visitar: `http://localhost:8089`
+
+3. **Configurar la prueba:**
+   - **Number of users (peak concurrency):** Número total de usuarios simultáneos
+     - Carga ligera: 50 usuarios
+     - Carga normal: 100 usuarios
+     - Carga pesada: 200 usuarios
+     - Prueba de estrés: 300 usuarios
+     - Prueba de picos: 500 usuarios
+
+   - **Spawn rate (users started/second):** Velocidad de creación de usuarios
+     - Carga ligera: 5 usuarios/segundo
+     - Carga normal: 10 usuarios/segundo
+     - Carga pesada: 20 usuarios/segundo
+     - Prueba de estrés: 30 usuarios/segundo
+     - Prueba de picos: 50 usuarios/segundo
+
+   - **Host:** URL del sistema a probar
+     - Sistema completo: `http://localhost:9081`
+     - Product Service: `http://localhost:8081`
+     - User Service: `http://localhost:8080`
+     - Order Service: `http://localhost:8082`
+     - Payment Service: `http://localhost:8083`
+     - Favourite Service: `http://localhost:8085`
+
+4. **Tipos de usuarios disponibles:**
+   - EcommerceUser: Operaciones generales
+   - ProductServiceUser: Navegación de productos
+   - OrderServiceUser: Gestión de pedidos
+   - PaymentServiceUser: Procesamiento de pagos
+   - FavouriteServiceUser: Gestión de favoritos
+   - UserServiceUser: Gestión de usuarios
+   - HealthCheckUser: Monitoreo de salud
+   - MobileAppUser: Simulación de app móvil
+
+5. **Monitoreo en tiempo real:**
+   - Tasa de solicitudes por segundo (RPS)
+   - Tiempo de respuesta (min, max, avg, 95%)
+   - Número de fallos
+   - Gráficos de rendimiento
+   - Distribución de tiempos de respuesta
+
 ---
 
 ## 📊 ESCENARIOS DE PRUEBA DETALLADOS

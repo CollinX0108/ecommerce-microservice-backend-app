@@ -20,14 +20,32 @@ class SecurityTestRunner:
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.session_dir = self.reports_dir / f"security_scan_{self.timestamp}"
         
-        # Servicios a probar
+        # Servicios a probar con sus rutas de health check
         self.services = {
-            "api-gateway": "http://localhost:9081",
-            "user-service": "http://localhost:8080", 
-            "product-service": "http://localhost:8081",
-            "order-service": "http://localhost:8082",
-            "payment-service": "http://localhost:8083",
-            "favourite-service": "http://localhost:8085"
+            "api-gateway": {
+                "url": "http://localhost:8080",
+                "health_path": "/actuator/health"
+            },
+            "user-service": {
+                "url": "http://localhost:8700",
+                "health_path": "/user-service/actuator/health"
+            },
+            "product-service": {
+                "url": "http://localhost:8500",
+                "health_path": "/product-service/actuator/health"
+            },
+            "order-service": {
+                "url": "http://localhost:8300",
+                "health_path": "/order-service/actuator/health"
+            },
+            "payment-service": {
+                "url": "http://localhost:8400",
+                "health_path": "/payment-service/actuator/health"
+            },
+            "favourite-service": {
+                "url": "http://localhost:8800",
+                "health_path": "/favourite-service/actuator/health"
+            }
         }
         
         # Configuración ZAP
@@ -66,11 +84,12 @@ class SecurityTestRunner:
         print("\n🌐 Verificando servicios...")
         active_services = {}
         
-        for name, url in self.services.items():
+        for name, service_info in self.services.items():
             try:
-                response = requests.get(f"{url}/actuator/health", timeout=5)
+                health_url = f"{service_info['url']}{service_info['health_path']}"
+                response = requests.get(health_url, timeout=5)
                 if response.status_code == 200:
-                    active_services[name] = url
+                    active_services[name] = service_info['url']
                     print(f"✅ {name}: Activo")
                 else:
                     print(f"⚠️ {name}: Respuesta {response.status_code}")
@@ -95,10 +114,10 @@ class SecurityTestRunner:
             }
             
             # Test 1: Headers de seguridad
-            service_results["tests"]["security_headers"] = self._test_security_headers(base_url)
+            service_results["tests"]["security_headers"] = self._test_security_headers(base_url, self.services[service_name]["health_path"])
             
             # Test 2: Métodos HTTP
-            service_results["tests"]["http_methods"] = self._test_http_methods(base_url)
+            service_results["tests"]["http_methods"] = self._test_http_methods(base_url, self.services[service_name]["health_path"])
             
             # Test 3: Información sensible
             service_results["tests"]["information_disclosure"] = self._test_information_disclosure(base_url)
@@ -110,10 +129,10 @@ class SecurityTestRunner:
             
         return results
         
-    def _test_security_headers(self, base_url):
+    def _test_security_headers(self, base_url, health_path):
         """Probar headers de seguridad"""
         try:
-            response = requests.get(f"{base_url}/actuator/health", timeout=5)
+            response = requests.get(f"{base_url}{health_path}", timeout=5)
             headers = response.headers
             
             security_headers = {
@@ -146,14 +165,14 @@ class SecurityTestRunner:
         except Exception as e:
             return {"status": "error", "message": str(e)}
             
-    def _test_http_methods(self, base_url):
+    def _test_http_methods(self, base_url, health_path):
         """Probar métodos HTTP permitidos"""
         methods = ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS", "TRACE"]
         results = {}
         
         for method in methods:
             try:
-                response = requests.request(method, f"{base_url}/actuator/health", timeout=5)
+                response = requests.request(method, f"{base_url}{health_path}", timeout=5)
                 results[method] = {
                     "allowed": response.status_code not in [405, 501],
                     "status_code": response.status_code
@@ -427,7 +446,7 @@ class SecurityTestRunner:
         # 6. Resumen final
         print("\n🎉 ESCANEO DE SEGURIDAD COMPLETADO")
         print("=" * 50)
-        print(f"📁 Reportes guardados en: {self.session_dir}")
+        print(f"🌐 Reportes guardados en: {self.session_dir}")
         print(f"🌐 Servicios escaneados: {len(active_services)}")
         print(f"📊 Total de pruebas: {final_report['security_scan_report']['summary']['total_tests']}")
         print(f"⚠️ Hallazgos de alto riesgo: {final_report['security_scan_report']['summary']['high_risk_findings']}")
