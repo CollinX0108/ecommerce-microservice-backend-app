@@ -397,7 +397,7 @@ pipeline {
                 sh "kubectl apply -f k8s/zipkin/ -n ${K8S_NAMESPACE}"
                 sh "kubectl rollout status deployment/zipkin -n ${K8S_NAMESPACE} --timeout=200s"
 
-                sh "kubectl delete deployment service-discovery -n ${K8S_NAMESPACE} --ignore-not-found=true"
+                sh "kubectl delete -f k8s/service-discovery/deployment.yaml -n ${K8S_NAMESPACE} --ignore-not-found=true"
                 sh "kubectl apply -f k8s/service-discovery/ -n ${K8S_NAMESPACE}"
                 sh "kubectl set image deployment/service-discovery service-discovery=${DOCKERHUB_USER}/service-discovery:${IMAGE_TAG} -n ${K8S_NAMESPACE}"
                 sh "kubectl set env deployment/service-discovery SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -n ${K8S_NAMESPACE}"
