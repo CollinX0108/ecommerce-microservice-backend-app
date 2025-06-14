@@ -87,47 +87,47 @@ pipeline {
             }
         }
 
-        stage('Push Docker Images') {
-            when {
-                anyOf {
-                    branch 'develop'
-                    branch 'stage'
-                    branch 'master'
-                }
-            }
-            steps {
-                withCredentials([string(credentialsId: "${DOCKER_CREDENTIALS_ID}", variable: 'docker_hub_pwd')]) {
-                    sh "docker login -u ${DOCKERHUB_USER} -p ${docker_hub_pwd}"
-                    script {
-                        def maxRetries = 3
-                        def retryDelay = 30
-                        
-                        SERVICES.split().each { service ->
-                            def retryCount = 0
-                            def success = false
+//        stage('Push Docker Images') {
+//            when {
+//                anyOf {
+//                    branch 'develop'
+//                    branch 'stage'
+//                    branch 'master'
+//                }
+//            }
+//            steps {
+//                withCredentials([string(credentialsId: "${DOCKER_CREDENTIALS_ID}", variable: 'docker_hub_pwd')]) {
+//                    sh "docker login -u ${DOCKERHUB_USER} -p ${docker_hub_pwd}"
+//                    script {
+//                        def maxRetries = 3
+//                        def retryDelay = 30
+
+//                        SERVICES.split().each { service ->
+//                            def retryCount = 0
+//                            def success = false
                             
-                            while (!success && retryCount < maxRetries) {
-                                try {
-                                    echo "Intentando push de ${service} (intento ${retryCount + 1}/${maxRetries})"
-                                    sh "docker push ${DOCKERHUB_USER}/${service}:${IMAGE_TAG}"
-                                    success = true
-                                    echo "✅ Push exitoso para ${service}"
-                                } catch (Exception e) {
-                                    retryCount++
-                                    if (retryCount < maxRetries) {
-                                        echo "❌ Error en push de ${service}, reintentando en ${retryDelay} segundos..."
-                                        sleep retryDelay
-                                    } else {
-                                        echo "❌ Error en push de ${service} después de ${maxRetries} intentos"
-                                        error "No se pudo hacer push de la imagen ${service} después de ${maxRetries} intentos"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//                            while (!success && retryCount < maxRetries) {
+//                                try {
+//                                    echo "Intentando push de ${service} (intento ${retryCount + 1}/${maxRetries})"
+//                                    sh "docker push ${DOCKERHUB_USER}/${service}:${IMAGE_TAG}"
+//                                    success = true
+//                                    echo "✅ Push exitoso para ${service}"
+//                                } catch (Exception e) {
+//                                    retryCount++
+//                                    if (retryCount < maxRetries) {
+//                                        echo "❌ Error en push de ${service}, reintentando en ${retryDelay} segundos..."
+//                                        sleep retryDelay
+//                                    } else {
+//                                        echo "❌ Error en push de ${service} después de ${maxRetries} intentos"
+//                                        error "No se pudo hacer push de la imagen ${service} después de ${maxRetries} intentos"
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         stage('Unit Tests') {
             when { branch 'develop' }
