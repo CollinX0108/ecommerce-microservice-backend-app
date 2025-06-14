@@ -7,7 +7,11 @@ ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
 #COPY service-discovery/ .
 #ADD service-discovery/target/service-discovery-v${PROJECT_VERSION}.jar service-discovery.jar
 COPY target/service-discovery-v0.1.0.jar service-discovery.jar
-RUN ls -l /home/app && java -version
+RUN ls -la /home/app && \
+    java -version && \
+    echo "Java home: $JAVA_HOME" && \
+    echo "Current directory: $(pwd)" && \
+    echo "Files in current directory: $(ls -la)"
 EXPOSE 8761
 ENTRYPOINT ["java", "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", "-jar", "service-discovery.jar"]
 
