@@ -73,6 +73,10 @@ spec:
               value: "true"
             - name: SPRING_JPA_PROPERTIES_HIBERNATE_USE_SQL_COMMENTS
               value: "true"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://cloud-config:9296"
+            - name: SPRING_CONFIG_IMPORT
+              value: "optional:configserver:http://cloud-config:9296"
           livenessProbe:
             httpGet:
               path: /order-service/actuator/health
