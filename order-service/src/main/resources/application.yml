@@ -17,6 +17,13 @@ spring:
       uri: http://cloud-config:9296
       fail-fast: false
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://service-discovery:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
 resilience4j:
   circuitbreaker:
     instances:
