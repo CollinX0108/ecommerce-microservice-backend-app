@@ -53,15 +53,17 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8700
-            initialDelaySeconds: 80
-            periodSeconds: 10
+            initialDelaySeconds: 120
+            periodSeconds: 20
+            timeoutSeconds: 5
             failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8700
-            initialDelaySeconds: 80
-            periodSeconds: 10
+            initialDelaySeconds: 120
+            periodSeconds: 20
+            timeoutSeconds: 5
             failureThreshold: 3
           volumeMounts:
             - name: common-config-volume
