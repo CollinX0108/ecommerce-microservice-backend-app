@@ -65,6 +65,14 @@ spec:
               value: "false"
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: "create"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DDL_AUTO
+              value: "create"
+            - name: SPRING_JPA_SHOW_SQL
+              value: "true"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
+              value: "true"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_USE_SQL_COMMENTS
+              value: "true"
           livenessProbe:
             httpGet:
               path: /order-service/actuator/health
