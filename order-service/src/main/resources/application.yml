@@ -1,4 +1,3 @@
-
 server:
   servlet:
     context-path: /order-service
@@ -12,7 +11,7 @@ spring:
     name: ORDER-SERVICE
   profiles:
     active:
-    - dev
+    - prod
 
 resilience4j:
   circuitbreaker:
