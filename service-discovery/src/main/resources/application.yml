@@ -7,6 +7,13 @@ spring:
     active:
     - prod
 
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+
 resilience4j:
   circuitbreaker:
     instances:
