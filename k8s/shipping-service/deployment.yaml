@@ -45,28 +45,62 @@ spec:
               value: "http://service-discovery:8761/eureka/"
             - name: EUREKA_INSTANCE
               value: "shipping-service"
+            - name: EUREKA_CLIENT_REGISTER_WITH_EUREKA
+              value: "true"
+            - name: EUREKA_CLIENT_FETCH_REGISTRY
+              value: "true"
             - name: SPRING_APPLICATION_NAME
               value: "SHIPPING-SERVICE"
             - name: SERVER_PORT
               value: "8600"
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: "/shipping-service"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:h2:file:/data/shipping_prod_db;DB_CLOSE_ON_EXIT=FALSE"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "sa"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: ""
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+              value: "org.hibernate.dialect.H2Dialect"
+            - name: SPRING_H2_CONSOLE_ENABLED
+              value: "true"
+            - name: SPRING_H2_CONSOLE_PATH
+              value: "/h2-console"
+            - name: SPRING_FLYWAY_ENABLED
+              value: "false"
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "create"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DDL_AUTO
+              value: "create"
+            - name: SPRING_JPA_SHOW_SQL
+              value: "true"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
+              value: "true"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_USE_SQL_COMMENTS
+              value: "true"
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /shipping-service/actuator/health
               port: 8600
-            initialDelaySeconds: 80
-            periodSeconds: 10
-            failureThreshold: 3
+            initialDelaySeconds: 180
+            periodSeconds: 15
+            failureThreshold: 5
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /shipping-service/actuator/health
               port: 8600
-            initialDelaySeconds: 80
+            initialDelaySeconds: 120
             periodSeconds: 10
-            failureThreshold: 3
+            failureThreshold: 5
           volumeMounts:
             - name: common-config-volume
               mountPath: /app/config
+            - name: h2-data
+              mountPath: /data
       volumes:
         - name: common-config-volume
           configMap:
-            name: common-config 
+            name: common-config
+        - name: h2-data
+          emptyDir: {} 
