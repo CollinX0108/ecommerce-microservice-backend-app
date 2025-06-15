@@ -4,7 +4,7 @@ server:
 
 spring:
   zipkin:
-    base-url: ${SPRING_ZIPKIN_BASE_URL:http://localhost:9411/}
+    base-url: ${SPRING_ZIPKIN_BASE_URL:http://zipkin:9411/}
   config:
     import: ${SPRING_CONFIG_IMPORT:optional:configserver:http://cloud-config:9296}
   application:
@@ -12,6 +12,10 @@ spring:
   profiles:
     active:
     - prod
+  cloud:
+    config:
+      uri: http://cloud-config:9296
+      fail-fast: false
 
 resilience4j:
   circuitbreaker:
