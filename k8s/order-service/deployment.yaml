@@ -49,6 +49,12 @@ spec:
               value: "ORDER-SERVICE"
             - name: SERVER_PORT
               value: "8300"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://mysql:3306/ecommerce_dev_db?useSSL=false&allowPublicKeyRetrieval=true"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "root"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "root"
           livenessProbe:
             httpGet:
               path: /order-service/actuator/health
