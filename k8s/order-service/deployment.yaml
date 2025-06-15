@@ -51,17 +51,19 @@ spec:
               value: "8300"
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /order-service/actuator/health
               port: 8300
-            initialDelaySeconds: 80
-            periodSeconds: 10
+            initialDelaySeconds: 120
+            periodSeconds: 20
+            timeoutSeconds: 5
             failureThreshold: 3
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /order-service/actuator/health
               port: 8300
-            initialDelaySeconds: 80
-            periodSeconds: 10
+            initialDelaySeconds: 120
+            periodSeconds: 20
+            timeoutSeconds: 5
             failureThreshold: 3
           volumeMounts:
             - name: common-config-volume
