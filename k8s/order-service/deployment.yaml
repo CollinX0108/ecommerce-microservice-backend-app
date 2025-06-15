@@ -50,7 +50,7 @@ spec:
             - name: SERVER_SERVLET_CONTEXT_PATH
               value: "/order-service"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:h2:mem:ecommerce_prod_db;DB_CLOSE_ON_EXIT=FALSE"
+              value: "jdbc:h2:file:/data/ecommerce_prod_db;DB_CLOSE_ON_EXIT=FALSE"
             - name: SPRING_DATASOURCE_USERNAME
               value: "sa"
             - name: SPRING_DATASOURCE_PASSWORD
@@ -94,7 +94,11 @@ spec:
           volumeMounts:
             - name: common-config-volume
               mountPath: /app/config
+            - name: h2-data
+              mountPath: /data
       volumes:
         - name: common-config-volume
           configMap:
-            name: common-config 
+            name: common-config
+        - name: h2-data
+          emptyDir: {} 
