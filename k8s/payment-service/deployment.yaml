@@ -53,6 +53,8 @@ spec:
               value: "PAYMENT-SERVICE"
             - name: SERVER_PORT
               value: "8400"
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: "/payment-service"
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:h2:file:/data/payment_prod_db;DB_CLOSE_ON_EXIT=FALSE"
             - name: SPRING_DATASOURCE_USERNAME
@@ -79,14 +81,14 @@ spec:
               value: "true"
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /payment-service/actuator/health
               port: 8400
             initialDelaySeconds: 180
             periodSeconds: 15
             failureThreshold: 5
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /payment-service/actuator/health
               port: 8400
             initialDelaySeconds: 120
             periodSeconds: 10
