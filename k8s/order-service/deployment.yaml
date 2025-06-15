@@ -49,35 +49,21 @@ spec:
               value: "ORDER-SERVICE"
             - name: SERVER_PORT
               value: "8300"
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:h2:mem:ecommerce_prod_db;DB_CLOSE_ON_EXIT=FALSE"
-            - name: SPRING_DATASOURCE_USERNAME
-              value: "sa"
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: ""
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
-              value: "org.hibernate.dialect.H2Dialect"
-            - name: SPRING_H2_CONSOLE_ENABLED
-              value: "true"
-            - name: SPRING_H2_CONSOLE_PATH
-              value: "/h2-console"
-            - name: SPRING_FLYWAY_ENABLED
-              value: "false"
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: "/order-service"
           livenessProbe:
             httpGet:
               path: /order-service/actuator/health
               port: 8300
-            initialDelaySeconds: 120
-            periodSeconds: 20
-            timeoutSeconds: 5
+            initialDelaySeconds: 90
+            periodSeconds: 10
             failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /order-service/actuator/health
               port: 8300
-            initialDelaySeconds: 120
-            periodSeconds: 20
-            timeoutSeconds: 5
+            initialDelaySeconds: 60
+            periodSeconds: 5
             failureThreshold: 3
           volumeMounts:
             - name: common-config-volume
