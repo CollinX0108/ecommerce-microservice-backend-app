@@ -16,7 +16,12 @@ spec:
         app: service-discovery
     spec:
       nodeSelector:
-        kubernetes.io/arch: amd64
+        agentpool: arm64
+      tolerations:
+      - key: "arch"
+        operator: "Equal"
+        value: "arm64"
+        effect: "NoSchedule"
       containers:
         - name: service-discovery
           image: collinx0108/service-discovery:prod

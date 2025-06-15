@@ -15,6 +15,13 @@ spec:
       labels:
         app: favourite-service
     spec:
+      nodeSelector:
+        agentpool: arm64
+      tolerations:
+      - key: "arch"
+        operator: "Equal"
+        value: "arm64"
+        effect: "NoSchedule"
       containers:
         - name: favourite-service
           image: collinx0108/favourite-service:prod
@@ -29,7 +36,7 @@ spec:
               cpu: "250m"
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "dev"
+              value: "prod"
             - name: SPRING_ZIPKIN_BASE_URL
               value: "http://zipkin:9411/"
             - name: SPRING_CONFIG_IMPORT
@@ -46,14 +53,14 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8800
-            initialDelaySeconds: 60
+            initialDelaySeconds: 80
             periodSeconds: 10
             failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8800
-            initialDelaySeconds: 30
+            initialDelaySeconds: 80
             periodSeconds: 10
             failureThreshold: 3
           volumeMounts:
