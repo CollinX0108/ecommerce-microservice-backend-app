@@ -39,8 +39,6 @@ spec:
               value: "prod"
             - name: SPRING_ZIPKIN_BASE_URL
               value: "http://zipkin:9411/"
-            - name: SPRING_CONFIG_IMPORT
-              value: "optional:configserver:http://cloud-config:9296"
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: "http://service-discovery:8761/eureka/"
             - name: EUREKA_INSTANCE
@@ -65,6 +63,8 @@ spec:
               value: "/h2-console"
             - name: SPRING_FLYWAY_ENABLED
               value: "false"
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "create"
           livenessProbe:
             httpGet:
               path: /order-service/actuator/health
