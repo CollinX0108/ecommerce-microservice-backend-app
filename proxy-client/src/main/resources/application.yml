@@ -118,11 +118,6 @@ management:
       show-details: always
       probes:
         enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-      base-path: /actuator
 
 # Feature Toggle Configuration
 features:
