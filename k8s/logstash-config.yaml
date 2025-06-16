@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-config
+  namespace: monitoring
+data:
+  logstash.yml: |
+    http.host: "0.0.0.0"
+    path.config: /usr/share/logstash/pipeline
+    xpack.monitoring.enabled: false
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+      }
+    }
+    
+    filter {
+      if [kubernetes] {
+        mutate {
+          add_field => {
+            "service_name" => "%{[kubernetes][container][name]}"
+            "namespace" => "%{[kubernetes][namespace]}"
+            "pod_name" => "%{[kubernetes][pod][name]}"
+          }
+        }
+      }
+      
+      # Parse JSON logs if they exist
+      if [message] =~ /^\{.*\}$/ {
+        json {
+          source => "message"
+        }
+      }
+      
+      # Add timestamp
+      date {
+        match => [ "timestamp", "ISO8601" ]
+      }
+      
+      # Parse Spring Boot logs
+      if [message] =~ /^\d{4}-\d{2}-\d{2}/ {
+        grok {
+          match => { 
+            "message" => "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:level} %{DATA:thread} --- \[%{DATA:logger}\] : %{GREEDYDATA:log_message}"
+          }
+        }
+      }
+    }
+    
+    output {
+      elasticsearch {
+        hosts => ["elasticsearch.monitoring.svc:9200"]
+        index => "ecommerce-logs-%{+YYYY.MM.dd}"
+      }
+      stdout { codec => rubydebug }
+    } 

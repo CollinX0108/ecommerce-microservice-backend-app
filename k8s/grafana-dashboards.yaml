@@ -1,0 +1,274 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: monitoring
+data:
+  ecommerce-overview.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "E-commerce Overview Dashboard",
+        "tags": ["ecommerce", "microservices"],
+        "timezone": "browser",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Services Status",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "up{job=\"ecommerce-services\"}",
+                "format": "time_series",
+                "legendFormat": "{{service}}"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "red",
+                        "text": "DOWN"
+                      },
+                      "1": {
+                        "color": "green",
+                        "text": "UP"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "id": 2,
+            "title": "Request Rate (req/sec)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(http_requests_total[5m])",
+                "format": "time_series",
+                "legendFormat": "{{service}} - {{method}}"
+              }
+            ],
+            "yAxes": [
+              {
+                "label": "Requests/sec",
+                "min": 0
+              }
+            ],
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 12,
+              "y": 0
+            }
+          },
+          {
+            "id": 3,
+            "title": "Response Time (95th percentile)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
+                "format": "time_series",
+                "legendFormat": "{{service}}"
+              }
+            ],
+            "yAxes": [
+              {
+                "label": "Seconds",
+                "min": 0
+              }
+            ],
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 0,
+              "y": 8
+            }
+          },
+          {
+            "id": 4,
+            "title": "Error Rate (%)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(http_requests_total{status=~\"5..\"}[5m]) / rate(http_requests_total[5m]) * 100",
+                "format": "time_series",
+                "legendFormat": "{{service}}"
+              }
+            ],
+            "yAxes": [
+              {
+                "label": "Error %",
+                "min": 0
+              }
+            ],
+            "gridPos": {
+              "h": 8,
+              "w": 12,
+              "x": 12,
+              "y": 8
+            }
+          }
+        ],
+        "time": {
+          "from": "now-1h",
+          "to": "now"
+        },
+        "refresh": "30s"
+      }
+    }
+
+  business-metrics.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "E-commerce Business Metrics",
+        "tags": ["business", "ecommerce"],
+        "timezone": "browser",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Orders Created (last 24h)",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "increase(orders_created_total[24h])",
+                "format": "time_series",
+                "legendFormat": "Orders"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": 0
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 10
+                    },
+                    {
+                      "color": "green",
+                      "value": 50
+                    }
+                  ]
+                }
+              }
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 6,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "id": 2,
+            "title": "Revenue (last 24h)",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "increase(order_revenue_total[24h])",
+                "format": "time_series",
+                "legendFormat": "Revenue"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "unit": "currencyUSD"
+              }
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 6,
+              "x": 6,
+              "y": 0
+            }
+          },
+          {
+            "id": 3,
+            "title": "Active Users",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "active_users_count",
+                "format": "time_series",
+                "legendFormat": "Users"
+              }
+            ],
+            "gridPos": {
+              "h": 8,
+              "w": 6,
+              "x": 12,
+              "y": 0
+            }
+          },
+          {
+            "id": 4,
+            "title": "Payment Success Rate",
+            "type": "gauge",
+            "targets": [
+              {
+                "expr": "rate(payments_successful_total[5m]) / rate(payments_total[5m]) * 100",
+                "format": "time_series",
+                "legendFormat": "Success Rate"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "min": 0,
+                "max": 100,
+                "unit": "percent",
+                "thresholds": {
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": 0
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 80
+                    },
+                    {
+                      "color": "green",
+                      "value": 95
+                    }
+                  ]
+                }
+              }
+            },
+            "gridPos": {
+              "h": 8,
+              "w": 6,
+              "x": 18,
+              "y": 0
+            }
+          }
+        ],
+        "time": {
+          "from": "now-24h",
+          "to": "now"
+        },
+        "refresh": "1m"
+      }
+    } 
