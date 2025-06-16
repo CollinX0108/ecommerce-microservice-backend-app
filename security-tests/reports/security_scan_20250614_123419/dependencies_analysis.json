@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-06-14T12:34:22.833346",
+  "pom_files_found": 12,
+  "files": [
+    "pom.xml",
+    "api-gateway\\pom.xml",
+    "cloud-config\\pom.xml",
+    "e2e-tests\\pom.xml",
+    "favourite-service\\pom.xml",
+    "order-service\\pom.xml",
+    "payment-service\\pom.xml",
+    "product-service\\pom.xml",
+    "proxy-client\\pom.xml",
+    "service-discovery\\pom.xml",
+    "shipping-service\\pom.xml",
+    "user-service\\pom.xml"
+  ],
+  "analysis": "Manual review required - check for known vulnerable dependencies"
+}

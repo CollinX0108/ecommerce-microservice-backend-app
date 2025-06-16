@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🔒 Reporte de Seguridad - 20250614_123419</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 5px; }
+        .summary { background: #ecf0f1; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        .service { border: 1px solid #bdc3c7; margin: 10px 0; padding: 15px; border-radius: 5px; }
+        .high-risk { color: #e74c3c; font-weight: bold; }
+        .medium-risk { color: #f39c12; font-weight: bold; }
+        .low-risk { color: #27ae60; }
+        .recommendation { background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; margin: 5px 0; border-radius: 3px; }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔒 Reporte de Seguridad</h1>
+        <p>Generado: 2025-06-14T12:34:22.834531</p>
+    </div>
+    
+    <div class="summary">
+        <h2>📊 Resumen</h2>
+        <p><strong>Servicios escaneados:</strong> 6</p>
+        <p><strong>Total de pruebas:</strong> 24</p>
+        <p><strong>Hallazgos de alto riesgo:</strong> <span class="high-risk">1</span></p>
+    </div>
+    
+    <h2>🎯 Servicios Analizados</h2>
+
+    <div class="service">
+        <h3>🔧 api-gateway</h3>
+        <p><strong>URL:</strong> http://localhost:8080</p>
+        <p><strong>Pruebas ejecutadas:</strong> 4</p>
+    </div>
+
+    <div class="service">
+        <h3>🔧 user-service</h3>
+        <p><strong>URL:</strong> http://localhost:8700</p>
+        <p><strong>Pruebas ejecutadas:</strong> 4</p>
+    </div>
+
+    <div class="service">
+        <h3>🔧 product-service</h3>
+        <p><strong>URL:</strong> http://localhost:8500</p>
+        <p><strong>Pruebas ejecutadas:</strong> 4</p>
+    </div>
+
+    <div class="service">
+        <h3>🔧 order-service</h3>
+        <p><strong>URL:</strong> http://localhost:8300</p>
+        <p><strong>Pruebas ejecutadas:</strong> 4</p>
+    </div>
+
+    <div class="service">
+        <h3>🔧 payment-service</h3>
+        <p><strong>URL:</strong> http://localhost:8400</p>
+        <p><strong>Pruebas ejecutadas:</strong> 4</p>
+    </div>
+
+    <div class="service">
+        <h3>🔧 favourite-service</h3>
+        <p><strong>URL:</strong> http://localhost:8800</p>
+        <p><strong>Pruebas ejecutadas:</strong> 4</p>
+    </div>
+<h2>💡 Recomendaciones</h2>
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>api-gateway</strong> - Security Headers: Missing X-Content-Type-Options header
+        <br><em>Recomendación: Add X-Content-Type-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>api-gateway</strong> - Security Headers: Missing X-Frame-Options header
+        <br><em>Recomendación: Add X-Frame-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>api-gateway</strong> - Security Headers: Missing X-XSS-Protection header
+        <br><em>Recomendación: Add X-XSS-Protection header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>api-gateway</strong> - Security Headers: Missing Strict-Transport-Security header
+        <br><em>Recomendación: Add Strict-Transport-Security header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="high-risk">[HIGH]</strong> 
+        <strong>api-gateway</strong> - Information Disclosure: Sensitive information exposed at /actuator/configprops
+        <br><em>Recomendación: Restrict access to sensitive endpoints or remove sensitive data</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>user-service</strong> - Security Headers: Missing X-Content-Type-Options header
+        <br><em>Recomendación: Add X-Content-Type-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>user-service</strong> - Security Headers: Missing X-Frame-Options header
+        <br><em>Recomendación: Add X-Frame-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>user-service</strong> - Security Headers: Missing X-XSS-Protection header
+        <br><em>Recomendación: Add X-XSS-Protection header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>user-service</strong> - Security Headers: Missing Strict-Transport-Security header
+        <br><em>Recomendación: Add Strict-Transport-Security header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>product-service</strong> - Security Headers: Missing X-Content-Type-Options header
+        <br><em>Recomendación: Add X-Content-Type-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>product-service</strong> - Security Headers: Missing X-Frame-Options header
+        <br><em>Recomendación: Add X-Frame-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>product-service</strong> - Security Headers: Missing X-XSS-Protection header
+        <br><em>Recomendación: Add X-XSS-Protection header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>product-service</strong> - Security Headers: Missing Strict-Transport-Security header
+        <br><em>Recomendación: Add Strict-Transport-Security header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>order-service</strong> - Security Headers: Missing X-Content-Type-Options header
+        <br><em>Recomendación: Add X-Content-Type-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>order-service</strong> - Security Headers: Missing X-Frame-Options header
+        <br><em>Recomendación: Add X-Frame-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>order-service</strong> - Security Headers: Missing X-XSS-Protection header
+        <br><em>Recomendación: Add X-XSS-Protection header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>order-service</strong> - Security Headers: Missing Strict-Transport-Security header
+        <br><em>Recomendación: Add Strict-Transport-Security header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>payment-service</strong> - Security Headers: Missing X-Content-Type-Options header
+        <br><em>Recomendación: Add X-Content-Type-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>payment-service</strong> - Security Headers: Missing X-Frame-Options header
+        <br><em>Recomendación: Add X-Frame-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>payment-service</strong> - Security Headers: Missing X-XSS-Protection header
+        <br><em>Recomendación: Add X-XSS-Protection header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>payment-service</strong> - Security Headers: Missing Strict-Transport-Security header
+        <br><em>Recomendación: Add Strict-Transport-Security header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>favourite-service</strong> - Security Headers: Missing X-Content-Type-Options header
+        <br><em>Recomendación: Add X-Content-Type-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>favourite-service</strong> - Security Headers: Missing X-Frame-Options header
+        <br><em>Recomendación: Add X-Frame-Options header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>favourite-service</strong> - Security Headers: Missing X-XSS-Protection header
+        <br><em>Recomendación: Add X-XSS-Protection header to improve security</em>
+    </div>
+
+    <div class="recommendation">
+        <strong class="medium-risk">[MEDIUM]</strong> 
+        <strong>favourite-service</strong> - Security Headers: Missing Strict-Transport-Security header
+        <br><em>Recomendación: Add Strict-Transport-Security header to improve security</em>
+    </div>
+
+</body>
+</html>
