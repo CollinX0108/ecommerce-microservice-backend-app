@@ -9,6 +9,9 @@ spring:
     import: ${SPRING_CONFIG_IMPORT:optional:configserver:http://cloud-config:9296}
   application:
     name: PROXY-CLIENT
+  profiles:
+    active:
+    - dev
 
 resilience4j:
   circuitbreaker:
