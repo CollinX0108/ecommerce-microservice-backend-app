@@ -8,8 +8,11 @@
 		<groupId>com.selimhorri</groupId>
 		<artifactId>ecommerce-microservice-backend</artifactId>
 		<version>0.1.0</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
+	<groupId>com.selimhorri</groupId>
 	<artifactId>proxy-client</artifactId>
+	<version>0.1.0</version>
 	<name>proxy-client</name>
 	<description>Spring Boot Microservice!</description>
 	<packaging>jar</packaging>
@@ -72,6 +75,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 	
 	<dependencyManagement>
