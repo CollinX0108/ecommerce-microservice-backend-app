@@ -45,6 +45,10 @@ spec:
               value: "http://zipkin:9411/"
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: "http://service-discovery:8761/eureka/"
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
+              value: "https://github.com/CollinX0108/cloud-config-server-dev"
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL
+              value: "main"
           livenessProbe:
             httpGet:
               path: /actuator/health
