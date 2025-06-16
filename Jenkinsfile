@@ -129,16 +129,16 @@ pipeline {
 //            }
 //        }
 
-        stage('Unit Tests') {
-            when { branch 'develop' }
-            steps {
-                script {
-                    ['user-service', 'product-service'].each {
-                        sh "mvn test -pl ${it}"
-                    }
-                }
-            }
-        }
+//        stage('Unit Tests') {
+//            when { branch 'develop' }
+//            steps {
+//                script {
+//                    ['user-service', 'product-service'].each {
+//                        sh "mvn test -pl ${it}"
+//                    }
+//                }
+//            }
+//        }
 
         stage('Integration Tests') {
             when { branch 'stage' }
@@ -454,6 +454,17 @@ pipeline {
                         sh "kubectl set image deployment/${svc} ${svc}=${image} -n ${K8S_NAMESPACE}"
                         sh "kubectl set env deployment/${svc} SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -n ${K8S_NAMESPACE}"
                         sh "kubectl rollout status deployment/${svc} -n ${K8S_NAMESPACE} --timeout=200s"
+                    }
+                }
+            }
+        }
+
+        stage('Unit Tests') {
+            when { branch 'develop' }
+            steps {
+                script {
+                    ['user-service', 'product-service'].each {
+                        sh "mvn test -pl ${it}"
                     }
                 }
             }
