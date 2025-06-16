@@ -24,7 +24,7 @@ spec:
         effect: "NoSchedule"
       containers:
         - name: service-discovery
-          image: collinx0108/service-discovery:prod
+          image: collinx0108/service-discovery:develop
           ports:
             - containerPort: 8761
           resources:
@@ -36,7 +36,7 @@ spec:
               cpu: "250m"
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "prod"
+              value: "develop"
             - name: SPRING_APPLICATION_NAME
               value: "SERVICE-DISCOVERY"
             - name: SERVER_PORT

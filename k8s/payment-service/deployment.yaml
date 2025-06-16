@@ -24,7 +24,7 @@ spec:
         effect: "NoSchedule"
       containers:
         - name: payment-service
-          image: collinx0108/payment-service:prod
+          image: collinx0108/payment-service:develop
           ports:
             - containerPort: 8400
           resources:
@@ -36,7 +36,7 @@ spec:
               cpu: "250m"
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "prod"
+              value: "develop"
             - name: SPRING_ZIPKIN_BASE_URL
               value: "http://zipkin:9411/"
             - name: SPRING_CONFIG_IMPORT
@@ -101,6 +101,6 @@ spec:
       volumes:
         - name: common-config-volume
           configMap:
-            name: common-config
+            name: common-config 
         - name: h2-data
           emptyDir: {} 

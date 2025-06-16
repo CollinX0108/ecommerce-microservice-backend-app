@@ -24,7 +24,7 @@ spec:
         effect: "NoSchedule"
       containers:
         - name: shipping-service
-          image: collinx0108/shipping-service:prod
+          image: collinx0108/shipping-service:develop
           ports:
             - containerPort: 8600
           resources:
@@ -36,7 +36,7 @@ spec:
               cpu: "250m"
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "prod"
+              value: "develop"
             - name: SPRING_ZIPKIN_BASE_URL
               value: "http://zipkin:9411/"
             - name: SPRING_CONFIG_IMPORT
@@ -56,7 +56,7 @@ spec:
             - name: SERVER_SERVLET_CONTEXT_PATH
               value: "/shipping-service"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:h2:file:/data/shipping_prod_db;DB_CLOSE_ON_EXIT=FALSE"
+              value: "jdbc:h2:file:/data/shipping_dev_db;DB_CLOSE_ON_EXIT=FALSE"
             - name: SPRING_DATASOURCE_USERNAME
               value: "sa"
             - name: SPRING_DATASOURCE_PASSWORD
@@ -101,6 +101,6 @@ spec:
       volumes:
         - name: common-config-volume
           configMap:
-            name: common-config
+            name: common-config 
         - name: h2-data
           emptyDir: {} 

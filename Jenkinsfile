@@ -392,33 +392,59 @@ pipeline {
         }
 
         stage('Deploy Core Services') {
-            when { branch 'master' }
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'master'
+                }
+            }
             steps {
-                sh "kubectl apply -f k8s/zipkin/ -n ${K8S_NAMESPACE}"
-                sh "kubectl rollout status deployment/zipkin -n ${K8S_NAMESPACE} --timeout=200s"
+                script {
+                    // Configurar el contexto de Kubernetes según la rama
+                    if (env.BRANCH_NAME == 'develop') {
+                        sh 'az aks get-credentials --name aks-develop-ecommerce --resource-group rg-develop-ecommerce'
+                    } else if (env.BRANCH_NAME == 'master') {
+                        sh 'az aks get-credentials --name aks-master-ecommerce --resource-group rg-master-ecommerce'
+                    }
 
-                sh "kubectl delete -f k8s/service-discovery/ -n ${K8S_NAMESPACE} --ignore-not-found=true"
-                sh "sleep 30"
-                sh "kubectl get pods -n ${K8S_NAMESPACE}"
-                sh "kubectl get rs -n ${K8S_NAMESPACE}"
-                sh "kubectl apply -f k8s/service-discovery/ -n ${K8S_NAMESPACE}"
-                sh "kubectl get pods -n ${K8S_NAMESPACE}"
-                sh "kubectl get rs -n ${K8S_NAMESPACE}"
-                sh "kubectl set image deployment/service-discovery service-discovery=${DOCKERHUB_USER}/service-discovery:${IMAGE_TAG} -n ${K8S_NAMESPACE}"
-                sh "kubectl set env deployment/service-discovery SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -n ${K8S_NAMESPACE}"
-                sh "kubectl rollout status deployment/service-discovery -n ${K8S_NAMESPACE} --timeout=400s"
+                    sh "kubectl apply -f k8s/zipkin/ -n ${K8S_NAMESPACE}"
+                    sh "kubectl rollout status deployment/zipkin -n ${K8S_NAMESPACE} --timeout=200s"
 
-                sh "kubectl apply -f k8s/cloud-config/ -n ${K8S_NAMESPACE}"
-                sh "kubectl set image deployment/cloud-config cloud-config=${DOCKERHUB_USER}/cloud-config:${IMAGE_TAG} -n ${K8S_NAMESPACE}"
-                sh "kubectl set env deployment/cloud-config SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -n ${K8S_NAMESPACE}"
-                sh "kubectl rollout status deployment/cloud-config -n ${K8S_NAMESPACE} --timeout=300s"
+                    sh "kubectl delete -f k8s/service-discovery/ -n ${K8S_NAMESPACE} --ignore-not-found=true"
+                    sh "sleep 30"
+                    sh "kubectl get pods -n ${K8S_NAMESPACE}"
+                    sh "kubectl get rs -n ${K8S_NAMESPACE}"
+                    sh "kubectl apply -f k8s/service-discovery/ -n ${K8S_NAMESPACE}"
+                    sh "kubectl get pods -n ${K8S_NAMESPACE}"
+                    sh "kubectl get rs -n ${K8S_NAMESPACE}"
+                    sh "kubectl set image deployment/service-discovery service-discovery=${DOCKERHUB_USER}/service-discovery:${IMAGE_TAG} -n ${K8S_NAMESPACE}"
+                    sh "kubectl set env deployment/service-discovery SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -n ${K8S_NAMESPACE}"
+                    sh "kubectl rollout status deployment/service-discovery -n ${K8S_NAMESPACE} --timeout=400s"
+
+                    sh "kubectl apply -f k8s/cloud-config/ -n ${K8S_NAMESPACE}"
+                    sh "kubectl set image deployment/cloud-config cloud-config=${DOCKERHUB_USER}/cloud-config:${IMAGE_TAG} -n ${K8S_NAMESPACE}"
+                    sh "kubectl set env deployment/cloud-config SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -n ${K8S_NAMESPACE}"
+                    sh "kubectl rollout status deployment/cloud-config -n ${K8S_NAMESPACE} --timeout=300s"
+                }
             }
         }
 
         stage('Deploy Microservices') {
-            when { branch 'master' }
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'master'
+                }
+            }
             steps {
                 script {
+                    // Configurar el contexto de Kubernetes según la rama
+                    if (env.BRANCH_NAME == 'develop') {
+                        sh 'az aks get-credentials --name aks-develop-ecommerce --resource-group rg-develop-ecommerce'
+                    } else if (env.BRANCH_NAME == 'master') {
+                        sh 'az aks get-credentials --name aks-master-ecommerce --resource-group rg-master-ecommerce'
+                    }
+
                     def appServices = ['user-service', 'product-service', 'order-service', 'payment-service', 'shipping-service', 'favourite-service', 'api-gateway', 'proxy-client']
 
                     for (svc in appServices) {
