@@ -113,11 +113,12 @@ management:
       enabled: true
     readinessstate:
       enabled: true
-  endpoints:
+  endpoint:
     health:
       show-details: always
       probes:
         enabled: true
+  endpoints:
     web:
       exposure:
         include: health,info
