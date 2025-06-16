@@ -106,11 +106,6 @@ resilience4j:
           - org.springframework.web.client.ResourceAccessException
 
 management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: '*'
-#      base-path: /actuator
   health:
     circuitbreakers:
       enabled: true
