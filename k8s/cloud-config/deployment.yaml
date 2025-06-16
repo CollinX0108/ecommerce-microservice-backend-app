@@ -24,7 +24,7 @@ spec:
         effect: "NoSchedule"
       containers:
         - name: cloud-config
-          image: collinx0108/cloud-config:develop
+          image: collinx0108/cloud-config:dev
           ports:
             - containerPort: 9296
           resources:
@@ -36,7 +36,7 @@ spec:
               cpu: "250m"
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "develop"
+              value: "dev"
             - name: SPRING_APPLICATION_NAME
               value: "CLOUD-CONFIG"
             - name: SERVER_PORT
