@@ -52,7 +52,7 @@ spec:
             - name: SERVER_SERVLET_CONTEXT_PATH
               value: "/favourite-service"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:h2:file:/data/favouritedb;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE"
+              value: "jdbc:h2:mem:favouritedb"
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: "org.h2.Driver"
             - name: SPRING_DATASOURCE_USERNAME
@@ -65,6 +65,12 @@ spec:
               value: "org.hibernate.dialect.H2Dialect"
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: "update"
+            - name: SPRING_JPA_SHOW_SQL
+              value: "true"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
+              value: "true"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_USE_SQL_COMMENTS
+              value: "true"
           livenessProbe:
             httpGet:
               path: /favourite-service/actuator/health
