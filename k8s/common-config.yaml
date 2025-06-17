@@ -25,6 +25,11 @@ data:
     spring.h2.console.enabled=true
     spring.h2.console.path=/h2-console
     
+    # Actuator y Management
+    management.endpoints.web.exposure.include=*
+    management.health.circuitbreakers.enabled=true
+    management.endpoint.health.show-details=always
+    
     # Logging
     logging.level.org.springframework.web=INFO
     logging.level.org.springframework.data=INFO
@@ -39,6 +44,11 @@ data:
     spring.config.import=optional:file:/etc/config/
     eureka.client.register-with-eureka=false
     eureka.client.fetch-registry=false
+    
+    # Actuator y Management
+    management.endpoints.web.exposure.include=*
+    management.health.circuitbreakers.enabled=true
+    management.endpoint.health.show-details=always
     
     # Logging
     logging.level.org.springframework.web=INFO
