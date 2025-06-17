@@ -1,5 +1,8 @@
 # Ecommerce Microservice Backend
 
+## Collin Gonzalez - A00382429
+## Manuel Herrera - A00381987
+
 ## Descripción
 Este proyecto implementa una arquitectura de microservicios para una plataforma de comercio electrónico utilizando Spring Boot, Docker y Kubernetes.
 
