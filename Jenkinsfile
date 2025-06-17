@@ -445,7 +445,7 @@ pipeline {
                         sh 'az aks get-credentials --name aks-master-ecommerce --resource-group rg-master-ecommerce'
                     }
 
-                    def appServices = ['user-service', 'product-service', 'order-service', 'payment-service', 'shipping-service', 'favourite-service', 'api-gateway', 'proxy-client']
+                    def appServices = ['user-service', 'product-service', 'order-service', 'payment-service', 'shipping-service', 'favourite-service', 'api-gateway']
 
                     for (svc in appServices) {
                         def image = "${DOCKERHUB_USER}/${svc}:${IMAGE_TAG}"
